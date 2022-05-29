@@ -261,6 +261,39 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		stokTextField.setText(null);
 	}
 	
+	// Check Exception
+	public boolean exceptionKode() {
+		if(kodeTextField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Kode tidak terisi!", "GAGAL", JOptionPane.INFORMATION_MESSAGE);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean exceptionNama() {
+		if(namaTextField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Nama tidak terisi!", "GAGAL", JOptionPane.INFORMATION_MESSAGE);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean exceptionHarga() {
+		if(hargaTextField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Harga tidak terisi!", "GAGAL", JOptionPane.INFORMATION_MESSAGE);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean exceptionStok() {
+		if(stokTextField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Stok tidak terisi!", "GAGAL", JOptionPane.INFORMATION_MESSAGE);
+			return true;
+		}
+		return false;
+	}
+	
 	public void insert() {
 		try {
 			String sql = "INSERT INTO `menu` (`Kode`, `Nama`, `Harga`, `Stok`)" + " VALUES((?),(?),(?),(?))";
@@ -358,6 +391,18 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == insert) {
+			if(exceptionKode()==true) {
+				return;
+			}
+			if(exceptionNama()==true) {
+				return;
+			}
+			if(exceptionHarga()==true) {
+				return;
+			}
+			if(exceptionStok()==true) {
+				return;
+			}
 //			+ if validasi gagal
 			if(m.validateKode(kodeTextField.getText())==true) {
 				if(getKode(kodeTextField.getText())==false) {
@@ -365,18 +410,32 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 				}
 				else {
 					JOptionPane.showMessageDialog(this, "Duplikat Kode Menu!", "GAGAL", JOptionPane.INFORMATION_MESSAGE);
+					return;
 				}
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Input Kode tidak sesuai!", "GAGAL", JOptionPane.INFORMATION_MESSAGE);
+				return;
 			}
 			
 			
 		} else if(e.getSource() == view) {
 			view();
 		} else if(e.getSource() == update) {
+			if(exceptionKode()==true) {
+				return;
+			}
+			if(exceptionHarga()==true) {
+				return;
+			}
+			if(exceptionStok()==true) {
+				return;
+			}
 			update();
 		} else if(e.getSource() == delete) {
+			if(exceptionKode()==true) {
+				return;
+			}
 			delete();
 		} else if(e.getSource() == cancel) {
 			clear();
