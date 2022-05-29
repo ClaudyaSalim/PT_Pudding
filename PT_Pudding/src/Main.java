@@ -57,7 +57,7 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 	public Main() {
 		settings();
 		connect();
-		initComponent();
+		component();
 		setVisible(true);
 	}
 	
@@ -71,7 +71,7 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		setResizable(false);
 	}
 	
-	public void initComponent() {
+	public void component() {
 		// Panel
 		northPanel = new JPanel();
 		titlePanel = new JPanel();
@@ -85,8 +85,7 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		
 		rightPanel = new JPanel();
 		tablePanel = new JPanel();
-//		+ southPanel -> petunjuk gunakan button view
-		southPanel = new JPanel();
+		southPanel = new JPanel(); // petunjuk gunakan button view
 		
 		// Label
 		titleLabel = new JLabel("PT Pudding Menu");
@@ -110,7 +109,7 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		delete = new JButton("Delete");
 		cancel = new JButton("Cancel");
 		
-		// Add Action Listener
+		// Action Listener
 		insert.addActionListener(this);
 		view.addActionListener(this);
 		update.addActionListener(this);
@@ -120,21 +119,21 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		// Tabel
 		model = new DefaultTableModel();
 		
-		// Menambahkan nama kolom
+		// Kolom
 		model.addColumn("Kode");
 		model.addColumn("Nama");
 		model.addColumn("Harga");
 		model.addColumn("Stok");
 		
-		// Init table
+		// Tabel
 		table = new JTable();
 		table.setModel(model);
 		sp = new JScrollPane(table);
 		
-		// Set Font
+		// set font
 		titleLabel.setFont(titleLabel.getFont().deriveFont(20f));
 		
-		// Set Preferred Size
+		// set size
 		leftPanel.setPreferredSize(new Dimension (300, 300));
 		rightPanel.setPreferredSize(new Dimension (500, 300));
 		kodeLabel.setPreferredSize(new Dimension(200,20));
@@ -159,7 +158,7 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		table.getColumnModel().getColumn(3).setPreferredWidth(10);
 		sp.setPreferredSize(new Dimension(450, 400));
 		
-		// Empty Border
+		// Border
 		titleLabel.setBorder(BorderFactory.createEmptyBorder(0,0,20,0));
 		
 		// Color
@@ -230,7 +229,7 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		}
 	}
 	
-	public void tampilkan_data() {
+	public void view() {
 		try {
 			String sql = "SELECT * FROM `menu`";
 			st = con.createStatement();
@@ -255,15 +254,14 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		}
 	}
 	
-	public void kosongin_form() {
+	public void clear() { // kosogin data di form
 		kodeTextField.setText(null);
 		namaTextField.setText(null);
 		hargaTextField.setText(null);
 		stokTextField.setText(null);
 	}
 	
-	
-	public void tambah() {
+	public void insert() {
 		try {
 			String sql = "INSERT INTO `menu` (`Kode`, `Nama`, `Harga`, `Stok`)" + " VALUES((?),(?),(?),(?))";
 			
@@ -288,7 +286,7 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		}
 	}
 	
-	public void edit() {
+	public void update() {
 		try {
 			String sql = "UPDATE `menu` SET `Harga` = (?), `Stok`= (?) WHERE Kode = (?)";
 			
@@ -332,7 +330,7 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		return exist;
 	}
 	
-	public void hapus() {
+	public void delete() {
 		try {
 			String sql = "DELETE FROM `menu` WHERE Kode = '" + kodeTextField.getText() + "'";
 			ps = con.prepareStatement(sql);
@@ -363,7 +361,7 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 //			+ if validasi gagal
 			if(m.validateKode(kodeTextField.getText())==true) {
 				if(getKode(kodeTextField.getText())==false) {
-					tambah();
+					insert();
 				}
 				else {
 					JOptionPane.showMessageDialog(this, "Duplikat Kode Menu!", "GAGAL", JOptionPane.INFORMATION_MESSAGE);
@@ -375,19 +373,19 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 			
 			
 		} else if(e.getSource() == view) {
-			tampilkan_data();
+			view();
 		} else if(e.getSource() == update) {
-			edit();
+			update();
 		} else if(e.getSource() == delete) {
-			hapus();
+			delete();
 		} else if(e.getSource() == cancel) {
-			kosongin_form();
+			clear();
 		} else {
 			this.dispose();
 			System.exit(0);
 		}
 		
-		kosongin_form();
+		clear();
 	}
 	
 	@Override
