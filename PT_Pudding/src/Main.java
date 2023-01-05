@@ -252,7 +252,7 @@ public class Main extends JFrame implements ActionListener, MouseListener{
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}    
 	
 	public void clear() { // kosogin data di form
 		kodeTextField.setText(null);
